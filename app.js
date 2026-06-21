@@ -20,6 +20,20 @@ const resetGame=()=>{
     enableBoxes();
     msgContainer.classList.add("hide")
 }
+const checkDraw = () => {
+    let allFilled = true;
+    for (let box of boxes) {
+        if (box.innerText === "") {
+            allFilled = false;
+            break;
+        }
+    }
+    if (allFilled) {
+        msg.innerText = "Game Draw!";
+        msgContainer.classList.remove("hide");
+        disableBoxes();
+    }
+};
 boxes.forEach((box) => {
     box.addEventListener("click",() => {
         if(turnO){
@@ -58,8 +72,12 @@ const checkWinner = ()=>{
         if(posVal1 !="" && posVal2!="" && posVal3 !=""){
             if(posVal1=== posVal2 && posVal2 === posVal3){
                 showWinner(posVal1);
+                winnerFound= true;
+                break;
             }
         }
+    }if(!winnerFound){
+        checkDraw();
     }
 };
 newGameBtn.addEventListener("click",resetGame);
